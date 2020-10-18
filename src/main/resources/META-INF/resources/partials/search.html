@@ -1,0 +1,25 @@
+<div class="row" ng-init="getFavoritesLists()">
+    <p class="lead">Search for your favorite movies</p>
+
+    <div class="input-group col-md-6">
+        <input class="form-control" placeholder="Please enter a part of movie title(min 3 chars)"
+               id="search_query" type="text" ng-model="search_query" name="search_query">
+        <span class="input-group-btn">
+                <button ng-click="searchMovies()" id="searchMovies" class="btn btn-default">Search</button>
+            </span>
+    </div>
+
+    <div class="row" id="movies">
+        <div ng-repeat="movie in movies_to_display">
+            <div class="col-lg-3 col-md-3 col-xs-4 movie">
+                <div class="thumbnail text-centered">
+                    <p class="movie-title">{{movie.title}}</p>
+                    <img class="img-responsive" ng-src="{{movie.poster_path}}" alt="{{movie.title}}">
+                    <button class="btn btn-default" ng-disabled="!selected_list_id"
+                            ng-click="addToFavoritesList(movie)">Add
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
