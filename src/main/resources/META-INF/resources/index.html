@@ -4,18 +4,24 @@
 
 <h1>Country data test page</h1>
 
-<form id="form1" method="GET" action="http://localhost:9000/api/calculate"
-      enctype="application/x-www-form-urlencoded">
+<form id="form1" enctype="application/x-www-form-urlencoded">
     <label for="country_name" style="display:inline">Country name:</label>
     <input id="country_name" name="country_name" type="text"/>
-    <input type="button" value="Get country data with AJAX" onclick="ajaxRequest()"/>
+    <input type="button" value="Get country data with AJAX" onclick="ajaxCountryRequest()"/>
+    <p/>
+</form>
+
+<form id="form2" enctype="application/x-www-form-urlencoded">
+    <label for="movie_query" style="display:inline">Movie query:</label>
+    <input id="movie_query" name="movie_query" type="text"/>
+    <input type="button" value="Get movie data with AJAX" onclick="ajaxMovieRequest()"/>
     <p/>
 </form>
 
 <span id="resultContainer">yep</span>
 
 <script>
-    function ajaxRequest() {
+    function ajaxCountryRequest() {
         var xhr = new XMLHttpRequest();
         xhr.open('POST', 'country/ajax/getCountryData');
         xhr.setRequestHeader('Content-Type', 'application/json')
@@ -23,13 +29,16 @@
         xhr.addEventListener('load', receiveResponse);
     }
 
-    function receiveResponse() {
-        var responseData = this.responseText;
-        setResult(responseData);
+    function ajaxMovieRequest() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'movie/ajax/getMovieData');
+        xhr.setRequestHeader('Content-Type', 'application/json')
+        xhr.send(document.getElementById('movie_query').value);
+        xhr.addEventListener('load', receiveResponse);
     }
 
-    function setResult(res) {
-        document.getElementById("resultContainer").innerHTML = res;
+    function receiveResponse() {
+        document.getElementById("resultContainer").innerHTML = this.responseText;
     }
 
 </script>
