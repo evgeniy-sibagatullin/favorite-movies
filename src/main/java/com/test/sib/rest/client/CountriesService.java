@@ -1,5 +1,6 @@
 package com.test.sib.rest.client;
 
+import com.test.sib.rest.model.Country;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 

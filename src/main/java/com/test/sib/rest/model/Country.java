@@ -1,4 +1,4 @@
-package com.test.sib.rest.client;
+package com.test.sib.rest.model;
 
 import java.util.List;
 
