@@ -62,4 +62,8 @@ angular.module('movie-favorites.site').controller('searchCtrl', ['$scope', '$htt
     $scope.selectList = function (id) {
         $scope.selected_list_id = id;
     };
+
+    $scope.showFavoritesListDetails = function (favorites_list_id) {
+        $location.url('/favorites/' + favorites_list_id);
+    };
 }]);
