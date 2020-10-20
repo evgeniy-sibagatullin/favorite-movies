@@ -8,12 +8,10 @@ angular.module('movie-favorites.site').controller('searchCtrl', ['$scope', '$htt
                 dataType: "json",
                 url: '/movie/ajax/getMovieData',
                 data: search_query
-            }).
-                success(function (input_movies) {
-                    $scope.prepareMoviesToDisplay(input_movies);
-                });
-        }
-        else {
+            }).success(function (input_movies) {
+                $scope.prepareMoviesToDisplay(input_movies);
+            });
+        } else {
             $scope.search_query = "";
         }
     };
@@ -21,7 +19,7 @@ angular.module('movie-favorites.site').controller('searchCtrl', ['$scope', '$htt
     $scope.prepareMoviesToDisplay = function (input_movies) {
         $.each(input_movies, function (i, movie) {
             var poster_full_path = (movie.poster_path != null) ?
-            "http://image.tmdb.org/t/p/w92" + movie.poster_path :
+                "http://image.tmdb.org/t/p/w92" + movie.poster_path :
                 "/img/no_poster_available.jpg";
 
             $scope.movies_to_display.push({
@@ -31,5 +29,37 @@ angular.module('movie-favorites.site').controller('searchCtrl', ['$scope', '$htt
                 "overview": movie.overview
             });
         });
+    };
+
+    $scope.getFavoritesLists = function () {
+        $http({
+            method: 'GET',
+            url: '/favorites/getAll'
+        }).success(function (favorites_lists) {
+            $scope.favorites_lists = favorites_lists;
+        });
+    };
+
+    $scope.createFavoritesList = function () {
+        var favorites_list_name = $scope.favorites_list_name ? $scope.favorites_list_name.trim() : null;
+        if (favorites_list_name) {
+            $http({
+                method: 'POST',
+                dataType: "json",
+                url: '/favorites/create',
+                data: favorites_list_name
+            }).success(function () {
+                $scope.getFavoritesLists();
+                $scope.favorites_list_name = '';
+            });
+        }
+    };
+
+    $scope.isListSelected = function (id) {
+        return $scope.selected_list_id == id;
+    };
+
+    $scope.selectList = function (id) {
+        $scope.selected_list_id = id;
     };
 }]);
