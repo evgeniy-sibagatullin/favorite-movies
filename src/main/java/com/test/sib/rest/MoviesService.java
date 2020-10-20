@@ -1,6 +1,6 @@
-package com.test.sib.rest.client;
+package com.test.sib.rest;
 
-import com.test.sib.rest.model.MoviesPage;
+import com.test.sib.model.MoviesPage;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import javax.ws.rs.GET;
