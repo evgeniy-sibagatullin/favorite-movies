@@ -32,4 +32,11 @@ public class FavoritesList {
         this.name = name;
     }
 
+    @Override
+    public String toString() {
+        return "FavoritesList{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

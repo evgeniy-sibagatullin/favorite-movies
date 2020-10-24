@@ -49,4 +49,14 @@ public class Movie {
     public void setOverview(String overview) {
         this.overview = overview;
     }
+
+    @Override
+    public String toString() {
+        return "Movie{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", poster_path='" + poster_path + '\'' +
+                ", overview='" + overview + '\'' +
+                '}';
+    }
 }
