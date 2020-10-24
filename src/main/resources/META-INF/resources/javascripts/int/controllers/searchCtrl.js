@@ -23,7 +23,7 @@ angular.module('movie-favorites.site').controller('searchCtrl', ['$scope', '$htt
                 "/img/no_poster_available.jpg";
 
             $scope.movies_to_display.push({
-                "movie_id": movie.id,
+                "id": movie.id,
                 "title": movie.title,
                 "poster_path": poster_full_path,
                 "overview": movie.overview
@@ -65,5 +65,17 @@ angular.module('movie-favorites.site').controller('searchCtrl', ['$scope', '$htt
 
     $scope.showFavoritesListDetails = function (favorites_list_id) {
         $location.url('/favorites/' + favorites_list_id);
+    };
+
+    $scope.movieDetails = function (id) {
+        var movieToProcess = null;
+
+        $.each($scope.movies_to_display, function (i, movie) {
+            if (movie.id == id) {
+                movieToProcess = movie;
+            }
+        });
+
+        alert(JSON.stringify(movieToProcess));
     };
 }]);
