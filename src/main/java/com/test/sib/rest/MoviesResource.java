@@ -4,9 +4,11 @@ import com.test.sib.model.Movie;
 import com.test.sib.model.MoviesPage;
 import com.test.sib.persistence.MoviesRepository;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
+import org.jboss.resteasy.annotations.jaxrs.PathParam;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -45,14 +47,28 @@ public class MoviesResource {
             moviesRepository.persist(movie);
         }
 
-        return Response.ok(movie).build();
+        return Response.ok().build();
+    }
+
+    @Transactional
+    @GET
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getById(@PathParam String id) {
+        Movie movie = moviesRepository.findById(Long.valueOf(id));
+
+        if (movie != null) {
+            return Response.ok(movie).build();
+        } else {
+            return Response.serverError().build();
+        }
     }
 
     private void cutOverviewLength(Movie movie) {
         String overview = movie.getOverview();
 
-        if (overview.length() > 255) {
-            movie.setOverview(overview.substring(0, 252) + "...");
+        if (overview.length() > 1023) {
+            movie.setOverview(overview.substring(0, 1020) + "...");
         }
     }
 }

@@ -7,6 +7,10 @@ window.app.config(['$routeProvider', function ($routeProvider) {
         templateUrl: 'partials/favoritesList.html',
         controller: 'favoritesListCtrl'
     });
+    $routeProvider.when('/movie/:id', {
+        templateUrl: 'partials/movie.html',
+        controller: 'moviesCtrl'
+    });
     $routeProvider.otherwise({
         templateUrl: 'partials/404.html',
         controller: 'page404Ctrl'

@@ -82,8 +82,8 @@ angular.module('movie-favorites.site').controller('searchCtrl', ['$scope', '$htt
                 dataType: "json",
                 url: '/movie/getDetails',
                 data: movieToProcess
-            }).success(function (result) {
-                alert(JSON.stringify(result));
+            }).success(function () {
+                $location.url('\/movie\/' + movieToProcess.id);
             });
         }
     };
