@@ -1,12 +1,12 @@
 angular.module('movie-favorites.site').controller('searchCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
     $scope.searchMovies = function () {
-        var search_query = $scope.search_query;
+        const search_query = $scope.search_query;
         if (search_query && search_query.length > 2) {
             $scope.movies_to_display = [];
             $http({
                 method: 'POST',
                 dataType: "json",
-                url: '/movie/ajax/getMovieData',
+                url: '/movie/getData',
                 data: search_query
             }).success(function (input_movies) {
                 $scope.prepareMoviesToDisplay(input_movies);
@@ -18,7 +18,7 @@ angular.module('movie-favorites.site').controller('searchCtrl', ['$scope', '$htt
 
     $scope.prepareMoviesToDisplay = function (input_movies) {
         $.each(input_movies, function (i, movie) {
-            var poster_full_path = (movie.poster_path != null) ?
+            const poster_full_path = (movie.poster_path != null) ?
                 "http://image.tmdb.org/t/p/w92" + movie.poster_path :
                 "/img/no_poster_available.jpg";
 
@@ -41,7 +41,7 @@ angular.module('movie-favorites.site').controller('searchCtrl', ['$scope', '$htt
     };
 
     $scope.createFavoritesList = function () {
-        var favorites_list_name = $scope.favorites_list_name ? $scope.favorites_list_name.trim() : null;
+        const favorites_list_name = $scope.favorites_list_name ? $scope.favorites_list_name.trim() : null;
         if (favorites_list_name) {
             $http({
                 method: 'POST',
@@ -56,7 +56,7 @@ angular.module('movie-favorites.site').controller('searchCtrl', ['$scope', '$htt
     };
 
     $scope.isListSelected = function (id) {
-        return $scope.selected_list_id == id;
+        return $scope.selected_list_id === id;
     };
 
     $scope.selectList = function (id) {
@@ -68,14 +68,23 @@ angular.module('movie-favorites.site').controller('searchCtrl', ['$scope', '$htt
     };
 
     $scope.movieDetails = function (id) {
-        var movieToProcess = null;
+        let movieToProcess = null;
 
         $.each($scope.movies_to_display, function (i, movie) {
-            if (movie.id == id) {
+            if (movie.id === id) {
                 movieToProcess = movie;
             }
         });
 
-        alert(JSON.stringify(movieToProcess));
+        if (movieToProcess) {
+            $http({
+                method: 'POST',
+                dataType: "json",
+                url: '/movie/getDetails',
+                data: movieToProcess
+            }).success(function (result) {
+                alert(JSON.stringify(result));
+            });
+        }
     };
 }]);

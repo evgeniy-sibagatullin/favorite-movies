@@ -1,9 +1,12 @@
 package com.test.sib.rest;
 
+import com.test.sib.model.Movie;
 import com.test.sib.model.MoviesPage;
+import com.test.sib.persistence.MoviesRepository;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -20,12 +23,36 @@ public class MoviesResource {
     @RestClient
     MoviesService moviesService;
 
+    @Inject
+    MoviesRepository moviesRepository;
+
     @POST
-    @Path("/ajax/getMovieData")
+    @Path("/getData")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getMovieData(String query) {
+    public Response getData(String query) {
         query = query.replaceAll("[^a-zA-Z0-9]", "");
         MoviesPage page = moviesService.getByQuery(API_KEY, query, PAGE_1);
         return Response.ok(page.results).build();
+    }
+
+    @Transactional
+    @POST
+    @Path("/getDetails")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getDetails(Movie movie) {
+        if (moviesRepository.findById(movie.getId()) == null) {
+            cutOverviewLength(movie);
+            moviesRepository.persist(movie);
+        }
+
+        return Response.ok(movie).build();
+    }
+
+    private void cutOverviewLength(Movie movie) {
+        String overview = movie.getOverview();
+
+        if (overview.length() > 255) {
+            movie.setOverview(overview.substring(0, 252) + "...");
+        }
     }
 }
