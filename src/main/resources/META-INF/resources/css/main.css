@@ -71,7 +71,7 @@
 }
 
 .movie img {
-    height: 150px;
+    height: 150px !important;
 }
 
 .thumbnail {
