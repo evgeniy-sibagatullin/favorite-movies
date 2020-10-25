@@ -29,4 +29,13 @@ angular.module('movie-favorites.site').controller('favoritesListCtrl', ['$scope'
             $scope.movies = movies_list;
         });
     }
+
+    $scope.removeMovie = function (movieId) {
+        $http({
+            method: 'GET',
+            url: 'favorites/removeMovie/' + $routeParams.id + "/" + movieId
+        }).success(function () {
+            $scope.getMovies();
+        });
+    }
 }]);

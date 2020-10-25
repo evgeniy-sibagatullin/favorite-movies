@@ -66,10 +66,9 @@ public class FavoritesListResource {
 
     @Transactional
     @POST
-    @Path("/addMovie/{listId}/{movieId}")
-    public Response addMovie(@PathParam String listId, @PathParam String movieId, Movie movie) {
-        Long favoritesListId = Long.valueOf(listId);
-        ListMovieRelation newRelation = new ListMovieRelation(favoritesListId, Long.valueOf(movieId));
+    @Path("/addMovie/{favoritesListId}/{movieId}")
+    public Response addMovie(@PathParam Long favoritesListId, @PathParam Long movieId, Movie movie) {
+        ListMovieRelation newRelation = new ListMovieRelation(favoritesListId, movieId);
         List<ListMovieRelation> oldRelations = relationsRepository.find("favorites_list_id", favoritesListId).list();
         boolean isToPersist = true;
 
@@ -85,6 +84,26 @@ public class FavoritesListResource {
 
             if (moviesRepository.findById(movie.getId()) == null) {
                 moviesRepository.persist(movie);
+            }
+        }
+
+        return Response.ok().build();
+    }
+
+    @Transactional
+    @GET
+    @Path("/removeMovie/{favoritesListId}/{movieId}")
+    public Response removeMovie(@PathParam Long favoritesListId, @PathParam Long movieId) {
+        ListMovieRelation newRelation = new ListMovieRelation(favoritesListId, movieId);
+        System.out.println(newRelation);
+
+        List<ListMovieRelation> oldRelations = relationsRepository.find("favorites_list_id", favoritesListId).list();
+
+        for (ListMovieRelation oldRelation : oldRelations) {
+            System.out.println(oldRelation);
+            if (oldRelation.equals(newRelation)) {
+                relationsRepository.delete(oldRelation);
+                break;
             }
         }
 
