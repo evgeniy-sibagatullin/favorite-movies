@@ -20,4 +20,13 @@ angular.module('movie-favorites.site').controller('favoritesListCtrl', ['$scope'
             });
         }
     };
+
+    $scope.getMovies = function () {
+        $http({
+            method: 'GET',
+            url: 'movie/getMovies/' + $routeParams.id
+        }).success(function (movies_list) {
+            $scope.movies = movies_list;
+        });
+    }
 }]);

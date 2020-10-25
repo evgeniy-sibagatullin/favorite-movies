@@ -1,9 +1,16 @@
-<div class="row" ng-init="getFavoritesList()">
+<div class="row" ng-init="getFavoritesList(); getMovies()">
     <p class="lead">{{favorites_list.name}}</p>
 
     <button ng-click="deleteFavoritesList()" class="btn btn-danger delete-favorites-list">Delete</button>
 
-    <div>
-        <p>The list is empty for now</p>
+    <div class="col-lg-2 col-md-3 col-xs-4 thumb movie" ng-repeat="movie in movies">
+        <div class="thumbnail text-centered">
+            <p class="movie-title">{{movie.title}}</p>
+            <a href="#/movie/{{movie.id}}">
+                <img class="img-responsive" ng-src="{{movie.poster_path}}" alt="">
+            </a>
+            <button ng-click="removeMovieFromFavoritesList(movie.id)" name="subscribe" class="btn btn-default">Remove
+            </button>
+        </div>
     </div>
 </div>

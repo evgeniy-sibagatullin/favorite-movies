@@ -1,8 +1,10 @@
 package com.test.sib.rest;
 
+import com.test.sib.model.ListMovieRelation;
 import com.test.sib.model.Movie;
 import com.test.sib.model.MoviesPage;
 import com.test.sib.persistence.MoviesRepository;
+import com.test.sib.persistence.RelationsRepository;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 
@@ -14,6 +16,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
+import java.util.List;
 
 @Path("/movie")
 public class MoviesResource {
@@ -27,6 +31,9 @@ public class MoviesResource {
 
     @Inject
     MoviesRepository moviesRepository;
+
+    @Inject
+    RelationsRepository relationsRepository;
 
     @POST
     @Path("/getData")
@@ -43,7 +50,6 @@ public class MoviesResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getDetails(Movie movie) {
         if (moviesRepository.findById(movie.getId()) == null) {
-            cutOverviewLength(movie);
             moviesRepository.persist(movie);
         }
 
@@ -64,11 +70,18 @@ public class MoviesResource {
         }
     }
 
-    private void cutOverviewLength(Movie movie) {
-        String overview = movie.getOverview();
+    @Transactional
+    @GET
+    @Path("/getMovies/{listId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getMovies(@PathParam Long listId) {
+        List<ListMovieRelation> relations = relationsRepository.find("favorites_list_id", listId).list();
+        List<Movie> movies = new ArrayList<>();
 
-        if (overview.length() > 1023) {
-            movie.setOverview(overview.substring(0, 1020) + "...");
+        for (ListMovieRelation relation : relations) {
+            movies.add(moviesRepository.findById(relation.getMovie_id()));
         }
+
+        return Response.ok(movies).build();
     }
 }

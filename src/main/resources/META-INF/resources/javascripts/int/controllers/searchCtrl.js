@@ -67,14 +67,8 @@ angular.module('movie-favorites.site').controller('searchCtrl', ['$scope', '$htt
         $location.url('/favorites/' + favorites_list_id);
     };
 
-    $scope.movieDetails = function (id) {
-        let movieToProcess = null;
-
-        $.each($scope.movies_to_display, function (i, movie) {
-            if (movie.id === id) {
-                movieToProcess = movie;
-            }
-        });
+    $scope.movieDetails = function (movieId) {
+        let movieToProcess = $scope.getMovieById(movieId);
 
         if (movieToProcess) {
             $http({
@@ -87,4 +81,32 @@ angular.module('movie-favorites.site').controller('searchCtrl', ['$scope', '$htt
             });
         }
     };
+
+    $scope.addToFavoritesList = function (movie) {
+        let movieId = movie.id;
+        let movieToProcess = $scope.getMovieById(movieId);
+
+        const active_favorites_list = $('.favorites_list_title.active');
+
+        if (active_favorites_list.length) {
+            $http({
+                method: 'POST',
+                dataType: "json",
+                url: "/favorites/addMovie/" + active_favorites_list.attr("id") + "/" + movieId,
+                data: movieToProcess
+            });
+        }
+    };
+
+    $scope.getMovieById = function (movieId) {
+        let movieToProcess = null;
+
+        $.each($scope.movies_to_display, function (i, movie) {
+            if (movie.id === movieId) {
+                movieToProcess = movie;
+            }
+        });
+
+        return movieToProcess;
+    }
 }]);
