@@ -7,6 +7,7 @@ import com.test.sib.persistence.FavoritesRepository;
 import com.test.sib.persistence.MoviesRepository;
 import com.test.sib.persistence.RelationsRepository;
 import io.quarkus.panache.common.Sort;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 
 import javax.inject.Inject;
@@ -30,11 +31,17 @@ public class FavoritesListResource {
     @Inject
     MoviesRepository moviesRepository;
 
+    @ConfigProperty(name = "default.id")
+    String id;
+
+    @ConfigProperty(name = "list-movie-relation.favorites-list-id-column")
+    String favoritesListIdColumn;
+
     @Transactional
     @GET
     @Path("/getAll/")
     public Response getAll() {
-        return Response.ok(favoritesRepository.listAll(Sort.by("id"))).build();
+        return Response.ok(favoritesRepository.listAll(Sort.by(id))).build();
     }
 
     @Transactional
@@ -69,7 +76,7 @@ public class FavoritesListResource {
     @Path("/addMovie/{favoritesListId}/{movieId}")
     public Response addMovie(@PathParam Long favoritesListId, @PathParam Long movieId, Movie movie) {
         ListMovieRelation newRelation = new ListMovieRelation(favoritesListId, movieId);
-        List<ListMovieRelation> oldRelations = relationsRepository.find("favorites_list_id", favoritesListId).list();
+        List<ListMovieRelation> oldRelations = relationsRepository.find(favoritesListIdColumn, favoritesListId).list();
         boolean isToPersist = true;
 
         for (ListMovieRelation oldRelation : oldRelations) {
@@ -95,12 +102,9 @@ public class FavoritesListResource {
     @Path("/removeMovie/{favoritesListId}/{movieId}")
     public Response removeMovie(@PathParam Long favoritesListId, @PathParam Long movieId) {
         ListMovieRelation newRelation = new ListMovieRelation(favoritesListId, movieId);
-        System.out.println(newRelation);
-
-        List<ListMovieRelation> oldRelations = relationsRepository.find("favorites_list_id", favoritesListId).list();
+        List<ListMovieRelation> oldRelations = relationsRepository.find(favoritesListIdColumn, favoritesListId).list();
 
         for (ListMovieRelation oldRelation : oldRelations) {
-            System.out.println(oldRelation);
             if (oldRelation.equals(newRelation)) {
                 relationsRepository.delete(oldRelation);
                 break;

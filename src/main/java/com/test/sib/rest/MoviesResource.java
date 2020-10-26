@@ -5,6 +5,7 @@ import com.test.sib.model.Movie;
 import com.test.sib.model.MoviesPage;
 import com.test.sib.persistence.MoviesRepository;
 import com.test.sib.persistence.RelationsRepository;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 
@@ -22,9 +23,6 @@ import java.util.List;
 @Path("/movie")
 public class MoviesResource {
 
-    private static final String API_KEY = "0f9b4ab5e8db77aca1b01cb2d7f892e6";
-    private static final String PAGE_1 = "1";
-
     @Inject
     @RestClient
     MoviesService moviesService;
@@ -35,12 +33,21 @@ public class MoviesResource {
     @Inject
     RelationsRepository relationsRepository;
 
+    @ConfigProperty(name = "movie-api.api-key")
+    String apiKey;
+
+    @ConfigProperty(name = "movie-api.default-page")
+    String defaultPage;
+
+    @ConfigProperty(name = "list-movie-relation.favorites-list-id-column")
+    String favoritesListIdColumn;
+
     @POST
     @Path("/getData")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getData(String query) {
         query = query.replaceAll("[^a-zA-Z0-9]", "");
-        MoviesPage page = moviesService.getByQuery(API_KEY, query, PAGE_1);
+        MoviesPage page = moviesService.getByQuery(apiKey, query, defaultPage);
         return Response.ok(page.results).build();
     }
 
@@ -75,7 +82,7 @@ public class MoviesResource {
     @Path("/getMovies/{listId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getMovies(@PathParam Long listId) {
-        List<ListMovieRelation> relations = relationsRepository.find("favorites_list_id", listId).list();
+        List<ListMovieRelation> relations = relationsRepository.find(favoritesListIdColumn, listId).list();
         List<Movie> movies = new ArrayList<>();
 
         for (ListMovieRelation relation : relations) {
