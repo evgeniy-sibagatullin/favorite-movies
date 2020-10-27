@@ -10,6 +10,17 @@ angular.module('movie-favorites.site').controller('favoritesListCtrl', ['$scope'
         });
     };
 
+    $scope.getMovies = function () {
+        $http({
+            method: 'GET',
+            url: 'movie/getMovies/' + $routeParams.id
+        }).success(function (movies_list) {
+            $scope.movies = movies_list;
+        }).error(function () {
+            $location.url('/');
+        });
+    }
+
     $scope.deleteFavoritesList = function () {
         if (confirm('Are you sure?')) {
             $http({
@@ -17,18 +28,11 @@ angular.module('movie-favorites.site').controller('favoritesListCtrl', ['$scope'
                 url: '/favorites/delete/' + $routeParams.id
             }).success(function () {
                 $location.url('/');
+            }).error(function () {
+                $location.url('/');
             });
         }
     };
-
-    $scope.getMovies = function () {
-        $http({
-            method: 'GET',
-            url: 'movie/getMovies/' + $routeParams.id
-        }).success(function (movies_list) {
-            $scope.movies = movies_list;
-        });
-    }
 
     $scope.removeMovie = function (movieId) {
         $http({
@@ -36,6 +40,8 @@ angular.module('movie-favorites.site').controller('favoritesListCtrl', ['$scope'
             url: 'favorites/removeMovie/' + $routeParams.id + "/" + movieId
         }).success(function () {
             $scope.getMovies();
+        }).error(function () {
+            $location.url('/');
         });
     }
 }]);
