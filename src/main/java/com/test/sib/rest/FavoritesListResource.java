@@ -65,9 +65,10 @@ public class FavoritesListResource {
     @Transactional
     @DELETE
     @Path("/delete/{id}")
-    public Response deleteById(@PathParam String id) {
-        FavoritesList list = favoritesRepository.findById(Long.valueOf(id));
+    public Response deleteById(@PathParam Long id) {
+        FavoritesList list = favoritesRepository.findById(id);
         favoritesRepository.delete(list);
+        relationsRepository.delete(favoritesListIdColumn, id);
         return Response.ok().build();
     }
 
