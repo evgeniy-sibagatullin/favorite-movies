@@ -1,8 +1,16 @@
-<div class="row" ng-init="getMovie();">
+<div class="row" ng-init="getMovie(); getFavoritesLists();">
     <div class="col-md-9 movie">
         <p class="lead movie-title">{{movie.title}}</p>
 
         <img class="img-responsive poster-border" ng-src="{{movie.poster_path}}" alt="" align="left">
         <p>{{movie.overview}}</p>
+    </div>
+
+    <div class="col-md-3">
+        <p class="lead">Added to lists</p>
+
+        <div ng-repeat="favorites_list in favorites_lists">
+            <a href="#/favorites/{{favorites_list.id}}" class="list-group-item">{{favorites_list.name}}</a>
+        </div>
     </div>
 </div>

@@ -9,5 +9,16 @@ angular.module('movie-favorites.site').controller('moviesCtrl', ['$scope', '$loc
             $location.url('/');
         });
     };
+
+    $scope.getFavoritesLists = function () {
+        $http({
+            method: 'GET',
+            url: '/movie/getFavoritesLists/' + $routeParams.id
+        }).success(function (favorites_lists) {
+            $scope.favorites_lists = favorites_lists;
+        }).error(function () {
+            $location.url('/');
+        });
+    };
 }]);
 

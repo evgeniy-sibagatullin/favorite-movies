@@ -1,8 +1,10 @@
 package com.test.sib.rest;
 
+import com.test.sib.model.FavoritesList;
 import com.test.sib.model.ListMovieRelation;
 import com.test.sib.model.Movie;
 import com.test.sib.model.MoviesPage;
+import com.test.sib.persistence.FavoritesRepository;
 import com.test.sib.persistence.MoviesRepository;
 import com.test.sib.persistence.RelationsRepository;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
@@ -33,6 +35,9 @@ public class MoviesResource {
     @Inject
     RelationsRepository relationsRepository;
 
+    @Inject
+    FavoritesRepository favoritesRepository;
+
     @ConfigProperty(name = "movie-api.api-key")
     String apiKey;
 
@@ -41,6 +46,9 @@ public class MoviesResource {
 
     @ConfigProperty(name = "list-movie-relation.favorites-list-id-column")
     String favoritesListIdColumn;
+
+    @ConfigProperty(name = "list-movie-relation.movie-id-column")
+    String movieIdColumn;
 
     @POST
     @Path("/getData")
@@ -90,5 +98,21 @@ public class MoviesResource {
         }
 
         return Response.ok(movies).build();
+    }
+
+
+    @Transactional
+    @GET
+    @Path("/getFavoritesLists/{movieId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getFavoritesLists(@PathParam Long movieId) {
+        List<ListMovieRelation> relations = relationsRepository.find(movieIdColumn, movieId).list();
+        List<FavoritesList> favoritesLists = new ArrayList<>();
+
+        for (ListMovieRelation relation : relations) {
+            favoritesLists.add(favoritesRepository.findById(relation.getFavorites_list_id()));
+        }
+
+        return Response.ok(favoritesLists).build();
     }
 }
