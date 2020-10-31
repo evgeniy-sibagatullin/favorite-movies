@@ -73,10 +73,10 @@ public class MoviesResource {
 
     @Transactional
     @GET
-    @Path("/{id}")
+    @Path("/{movieId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getById(@PathParam String id) {
-        Movie movie = moviesRepository.findById(Long.valueOf(id));
+    public Response getById(@PathParam Long movieId) {
+        Movie movie = moviesRepository.findById(movieId);
 
         if (movie != null) {
             return Response.ok(movie).build();

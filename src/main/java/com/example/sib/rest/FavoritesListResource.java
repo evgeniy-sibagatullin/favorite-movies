@@ -56,28 +56,28 @@ public class FavoritesListResource {
 
     @Transactional
     @GET
-    @Path("/{id}")
-    public Response getById(@PathParam String id) {
-        FavoritesList list = favoritesRepository.findById(Long.valueOf(id));
+    @Path("/{listId}")
+    public Response getById(@PathParam Long listId) {
+        FavoritesList list = favoritesRepository.findById(listId);
         return Response.ok(list).build();
     }
 
     @Transactional
     @DELETE
-    @Path("/delete/{id}")
-    public Response deleteById(@PathParam Long id) {
-        FavoritesList list = favoritesRepository.findById(id);
+    @Path("/delete/{listId}")
+    public Response deleteById(@PathParam Long listId) {
+        FavoritesList list = favoritesRepository.findById(listId);
         favoritesRepository.delete(list);
-        relationsRepository.delete(favoritesListIdColumn, id);
+        relationsRepository.delete(favoritesListIdColumn, listId);
         return Response.ok().build();
     }
 
     @Transactional
     @POST
-    @Path("/addMovie/{favoritesListId}/{movieId}")
-    public Response addMovie(@PathParam Long favoritesListId, @PathParam Long movieId, Movie movie) {
-        ListMovieRelation newRelation = new ListMovieRelation(favoritesListId, movieId);
-        List<ListMovieRelation> oldRelations = relationsRepository.find(favoritesListIdColumn, favoritesListId).list();
+    @Path("/addMovie/{listId}/{movieId}")
+    public Response addMovie(@PathParam Long listId, @PathParam Long movieId, Movie movie) {
+        ListMovieRelation newRelation = new ListMovieRelation(listId, movieId);
+        List<ListMovieRelation> oldRelations = relationsRepository.find(favoritesListIdColumn, listId).list();
         boolean isToPersist = true;
 
         for (ListMovieRelation oldRelation : oldRelations) {
@@ -100,10 +100,10 @@ public class FavoritesListResource {
 
     @Transactional
     @GET
-    @Path("/removeMovie/{favoritesListId}/{movieId}")
-    public Response removeMovie(@PathParam Long favoritesListId, @PathParam Long movieId) {
-        ListMovieRelation newRelation = new ListMovieRelation(favoritesListId, movieId);
-        List<ListMovieRelation> oldRelations = relationsRepository.find(favoritesListIdColumn, favoritesListId).list();
+    @Path("/removeMovie/{listId}/{movieId}")
+    public Response removeMovie(@PathParam Long listId, @PathParam Long movieId) {
+        ListMovieRelation newRelation = new ListMovieRelation(listId, movieId);
+        List<ListMovieRelation> oldRelations = relationsRepository.find(favoritesListIdColumn, listId).list();
 
         for (ListMovieRelation oldRelation : oldRelations) {
             if (oldRelation.equals(newRelation)) {
