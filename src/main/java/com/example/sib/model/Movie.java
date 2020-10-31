@@ -1,4 +1,4 @@
-package com.test.sib.model;
+package com.example.sib.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

@@ -1,12 +1,12 @@
-package com.test.sib.rest;
+package com.example.sib.rest;
 
-import com.test.sib.model.FavoritesList;
-import com.test.sib.model.ListMovieRelation;
-import com.test.sib.model.Movie;
-import com.test.sib.model.MoviesPage;
-import com.test.sib.persistence.FavoritesRepository;
-import com.test.sib.persistence.MoviesRepository;
-import com.test.sib.persistence.RelationsRepository;
+import com.example.sib.model.FavoritesList;
+import com.example.sib.model.ListMovieRelation;
+import com.example.sib.model.Movie;
+import com.example.sib.model.MoviesPage;
+import com.example.sib.persistence.FavoritesRepository;
+import com.example.sib.persistence.MoviesRepository;
+import com.example.sib.persistence.RelationsRepository;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;

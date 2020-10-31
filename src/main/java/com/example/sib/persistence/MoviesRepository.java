@@ -1,6 +1,6 @@
-package com.test.sib.persistence;
+package com.example.sib.persistence;
 
-import com.test.sib.model.Movie;
+import com.example.sib.model.Movie;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
 import javax.enterprise.context.ApplicationScoped;

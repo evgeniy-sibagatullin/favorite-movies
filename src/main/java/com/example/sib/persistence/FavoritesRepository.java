@@ -1,6 +1,6 @@
-package com.test.sib.persistence;
+package com.example.sib.persistence;
 
-import com.test.sib.model.FavoritesList;
+import com.example.sib.model.FavoritesList;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
 import javax.enterprise.context.ApplicationScoped;

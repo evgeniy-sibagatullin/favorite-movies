@@ -1,4 +1,4 @@
-package com.test.sib.model;
+package com.example.sib.model;
 
 import java.util.List;
 
