@@ -9,6 +9,7 @@ import com.example.sib.persistence.MoviesRepository;
 import com.example.sib.persistence.RelationsRepository;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
+import org.jboss.logging.Logger;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 
 import javax.inject.Inject;
@@ -24,6 +25,8 @@ import java.util.List;
 
 @Path("/movie")
 public class MoviesResource {
+
+    private static final Logger LOG = Logger.getLogger(MoviesResource.class);
 
     @Inject
     @RestClient
@@ -54,6 +57,8 @@ public class MoviesResource {
     @Path("/getData")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getData(String query) {
+        LOG.info(query);
+
         query = query.replaceAll("[^a-zA-Z0-9]", "");
         MoviesPage page = moviesService.getByQuery(apiKey, query, defaultPage);
         return Response.ok(page.results).build();
@@ -64,6 +69,8 @@ public class MoviesResource {
     @Path("/getDetails")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getDetails(Movie movie) {
+        LOG.info(movie.getId());
+
         if (moviesRepository.findById(movie.getId()) == null) {
             moviesRepository.persist(movie);
         }
@@ -76,6 +83,8 @@ public class MoviesResource {
     @Path("/{movieId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getById(@PathParam Long movieId) {
+        LOG.info(movieId);
+
         Movie movie = moviesRepository.findById(movieId);
 
         if (movie != null) {
@@ -90,6 +99,8 @@ public class MoviesResource {
     @Path("/getMovies/{listId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getMovies(@PathParam Long listId) {
+        LOG.info(listId);
+
         List<ListMovieRelation> relations = relationsRepository.find(favoritesListIdColumn, listId).list();
         List<Movie> movies = new ArrayList<>();
 
@@ -106,6 +117,8 @@ public class MoviesResource {
     @Path("/getFavoritesLists/{movieId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getFavoritesLists(@PathParam Long movieId) {
+        LOG.info(movieId);
+
         List<ListMovieRelation> relations = relationsRepository.find(movieIdColumn, movieId).list();
         List<FavoritesList> favoritesLists = new ArrayList<>();
 

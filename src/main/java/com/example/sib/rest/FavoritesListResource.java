@@ -8,6 +8,7 @@ import com.example.sib.persistence.MoviesRepository;
 import com.example.sib.persistence.RelationsRepository;
 import io.quarkus.panache.common.Sort;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.jboss.logging.Logger;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 
 import javax.inject.Inject;
@@ -21,6 +22,8 @@ import java.util.List;
 
 @Path("/favorites")
 public class FavoritesListResource {
+
+    private static final Logger LOG = Logger.getLogger(FavoritesListResource.class);
 
     @Inject
     FavoritesRepository favoritesRepository;
@@ -41,6 +44,8 @@ public class FavoritesListResource {
     @GET
     @Path("/getAll/")
     public Response getAll() {
+        LOG.info("");
+
         return Response.ok(favoritesRepository.listAll(Sort.by(id))).build();
     }
 
@@ -48,6 +53,8 @@ public class FavoritesListResource {
     @POST
     @Path("/create/")
     public Response create(String name) {
+        LOG.info(name);
+
         FavoritesList list = new FavoritesList();
         list.setName(name);
         favoritesRepository.persist(list);
@@ -58,6 +65,8 @@ public class FavoritesListResource {
     @GET
     @Path("/{listId}")
     public Response getById(@PathParam Long listId) {
+        LOG.info(listId);
+
         FavoritesList list = favoritesRepository.findById(listId);
         return Response.ok(list).build();
     }
@@ -66,6 +75,8 @@ public class FavoritesListResource {
     @DELETE
     @Path("/delete/{listId}")
     public Response deleteById(@PathParam Long listId) {
+        LOG.info(listId);
+
         FavoritesList list = favoritesRepository.findById(listId);
         favoritesRepository.delete(list);
         relationsRepository.delete(favoritesListIdColumn, listId);
@@ -76,6 +87,8 @@ public class FavoritesListResource {
     @POST
     @Path("/addMovie/{listId}/{movieId}")
     public Response addMovie(@PathParam Long listId, @PathParam Long movieId, Movie movie) {
+        LOG.info("listId: " + listId + ", movieId: " + movieId);
+
         ListMovieRelation newRelation = new ListMovieRelation(listId, movieId);
         List<ListMovieRelation> oldRelations = relationsRepository.find(favoritesListIdColumn, listId).list();
         boolean isToPersist = true;
@@ -102,6 +115,8 @@ public class FavoritesListResource {
     @GET
     @Path("/removeMovie/{listId}/{movieId}")
     public Response removeMovie(@PathParam Long listId, @PathParam Long movieId) {
+        LOG.info("listId: " + listId + ", movieId: " + movieId);
+
         ListMovieRelation newRelation = new ListMovieRelation(listId, movieId);
         List<ListMovieRelation> oldRelations = relationsRepository.find(favoritesListIdColumn, listId).list();
 
