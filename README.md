@@ -17,27 +17,27 @@ If you want to learn more about Quarkus, please visit its website: https://quark
 
 * Install and setup Java
 
-	    https://www.oracle.com/java/technologies/javase-downloads.html
+    https://www.oracle.com/java/technologies/javase-downloads.html
 	
 * Install Java IDE
 
-	    https://www.jetbrains.com/idea/
+    https://www.jetbrains.com/idea/
 	
 * Install and setup PostgreSQL
 
-	    https://www.postgresql.org/download/
+    https://www.postgresql.org/download/
 	
 * Clone project
 
-	    https://github.com/evgeniy-sibagatullin/favorite-movies.git
+    https://github.com/evgeniy-sibagatullin/favorite-movies.git
 		
 * Register on themoviedb site and retrieve API Key (v3 auth)
 
-	    https://www.themoviedb.org/settings/api
+    https://www.themoviedb.org/settings/api
 		
 * Connect IDEA and PostgreSQL
 
-	    https://www.jetbrains.com/help/idea/connecting-to-a-database.html#connect-to-postgresql-database
+    https://www.jetbrains.com/help/idea/connecting-to-a-database.html#connect-to-postgresql-database
 	
 * Execute DB initialization script
     ```
@@ -68,7 +68,7 @@ Run your application in dev mode that enables live coding using:
 
 Launch the following URL in the browser once the server is up:
 
-    http://localhost:9000/index.html
+http://localhost:9000/index.html
 
 License
 =======
