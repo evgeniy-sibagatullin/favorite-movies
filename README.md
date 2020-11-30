@@ -54,7 +54,7 @@ If you want to learn more about Quarkus, please visit its website: https://quark
 
 Issue the command from folder where pom.xml is present:
     ```
-    ./mvn compile quarkus:dev
+    ./mvnw compile quarkus:dev
     ```
 
 ## Running the application in dev mode
