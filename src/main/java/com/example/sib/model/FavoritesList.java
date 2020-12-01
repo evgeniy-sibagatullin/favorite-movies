@@ -1,5 +1,9 @@
 package com.example.sib.model;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -8,6 +12,9 @@ import javax.persistence.Table;
 @SuppressWarnings("unused")
 @Entity
 @Table(name = "favorites_list")
+@Getter
+@Setter
+@ToString
 public class FavoritesList {
 
     @Id
@@ -15,28 +22,4 @@ public class FavoritesList {
     private Long id;
 
     private String name;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String toString() {
-        return "FavoritesList{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
-    }
 }

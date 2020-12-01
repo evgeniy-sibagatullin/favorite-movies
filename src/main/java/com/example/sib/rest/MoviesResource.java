@@ -105,7 +105,7 @@ public class MoviesResource {
         List<Movie> movies = new ArrayList<>();
 
         for (ListMovieRelation relation : relations) {
-            movies.add(moviesRepository.findById(relation.getMovie_id()));
+            movies.add(moviesRepository.findById(relation.getMovieId()));
         }
 
         return Response.ok(movies).build();
@@ -123,7 +123,7 @@ public class MoviesResource {
         List<FavoritesList> favoritesLists = new ArrayList<>();
 
         for (ListMovieRelation relation : relations) {
-            favoritesLists.add(favoritesRepository.findById(relation.getFavorites_list_id()));
+            favoritesLists.add(favoritesRepository.findById(relation.getFavoritesListId()));
         }
 
         return Response.ok(favoritesLists).build();
