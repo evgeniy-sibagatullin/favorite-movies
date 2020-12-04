@@ -8,7 +8,7 @@ If you want to learn more about Quarkus, please visit its website: https://quark
 
 * JDK 11.0.3
 * PostgreSQL 13.1
-* Quarkus 1.2
+* Quarkus 1.10.2
 * Maven
 * AngularJS
 * Bootstrap
