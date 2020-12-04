@@ -1,9 +1,13 @@
 package com.example.sib.model;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.json.bind.annotation.JsonbProperty;
 import javax.persistence.*;
+import java.util.Objects;
 
 @SuppressWarnings("unused")
 @Entity
@@ -11,7 +15,6 @@ import javax.persistence.*;
 @Getter
 @Setter
 @ToString
-@EqualsAndHashCode
 @NoArgsConstructor
 public class ListMovieRelation {
 
@@ -30,5 +33,19 @@ public class ListMovieRelation {
     public ListMovieRelation(Long favoritesListId, Long movieId) {
         this.favoritesListId = favoritesListId;
         this.movieId = movieId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ListMovieRelation that = (ListMovieRelation) o;
+        return favoritesListId.equals(that.favoritesListId) &&
+                movieId.equals(that.movieId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(favoritesListId, movieId);
     }
 }
