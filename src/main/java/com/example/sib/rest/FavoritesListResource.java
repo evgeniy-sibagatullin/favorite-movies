@@ -64,7 +64,7 @@ public class FavoritesListResource {
     @Transactional
     @GET
     @Path("/{listId}")
-    public Response getById(@PathParam Long listId) {
+    public Response getById(@PathParam("listId") Long listId) {
         LOG.info(listId);
 
         FavoritesList list = favoritesRepository.findById(listId);
@@ -74,7 +74,7 @@ public class FavoritesListResource {
     @Transactional
     @DELETE
     @Path("/delete/{listId}")
-    public Response deleteById(@PathParam Long listId) {
+    public Response deleteById(@PathParam("listId") Long listId) {
         LOG.info(listId);
 
         FavoritesList list = favoritesRepository.findById(listId);
@@ -86,7 +86,7 @@ public class FavoritesListResource {
     @Transactional
     @POST
     @Path("/addMovie/{listId}/{movieId}")
-    public Response addMovie(@PathParam Long listId, @PathParam Long movieId, Movie movie) {
+    public Response addMovie(@PathParam("listId") Long listId, @PathParam("movieId") Long movieId, Movie movie) {
         LOG.info("listId: " + listId + ", movieId: " + movieId);
 
         ListMovieRelation newRelation = new ListMovieRelation(listId, movieId);
@@ -114,7 +114,7 @@ public class FavoritesListResource {
     @Transactional
     @GET
     @Path("/removeMovie/{listId}/{movieId}")
-    public Response removeMovie(@PathParam Long listId, @PathParam Long movieId) {
+    public Response removeMovie(@PathParam("listId") Long listId, @PathParam("movieId") Long movieId) {
         LOG.info("listId: " + listId + ", movieId: " + movieId);
 
         ListMovieRelation newRelation = new ListMovieRelation(listId, movieId);

@@ -82,7 +82,7 @@ public class MoviesResource {
     @GET
     @Path("/{movieId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getById(@PathParam Long movieId) {
+    public Response getById(@PathParam("movieId") Long movieId) {
         LOG.info(movieId);
 
         Movie movie = moviesRepository.findById(movieId);
@@ -98,7 +98,7 @@ public class MoviesResource {
     @GET
     @Path("/getMovies/{listId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getMovies(@PathParam Long listId) {
+    public Response getMovies(@PathParam("listId") Long listId) {
         LOG.info(listId);
 
         List<ListMovieRelation> relations = relationsRepository.find(favoritesListIdColumn, listId).list();
@@ -116,7 +116,7 @@ public class MoviesResource {
     @GET
     @Path("/getFavoritesLists/{movieId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getFavoritesLists(@PathParam Long movieId) {
+    public Response getFavoritesLists(@PathParam("movieId") Long movieId) {
         LOG.info(movieId);
 
         List<ListMovieRelation> relations = relationsRepository.find(movieIdColumn, movieId).list();
