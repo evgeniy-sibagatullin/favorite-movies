@@ -1,0 +1,58 @@
+databaseChangeLog:
+  - logicalFilePath: MAIN_SCHEMA
+  - objectQuotingStrategy: QUOTE_ALL_OBJECTS
+  - changeSet:
+      id: 1
+      author: Yevhen Sibahatullin
+      changes:
+        - createTable:
+            tableName: favorites_list
+            columns:
+              - column:
+                  name: id
+                  type: integer
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+        - createTable:
+            tableName: movie
+            columns:
+              - column:
+                  name: id
+                  type: integer
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: title
+                  type: varchar(255)
+              - column:
+                  name: poster_path
+                  type: varchar(255)
+              - column:
+                  name: overview
+                  type: varchar(1023)
+        - createTable:
+            tableName: list_movie_relation
+            columns:
+              - column:
+                  name: id
+                  type: integer
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: favorites_list_id
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: movie_id
+                  type: integer
+                  constraints:
+                    nullable: false
+        -  createSequence:
+             sequenceName:  hibernate_sequence

@@ -12,6 +12,7 @@ If you want to learn more about Quarkus, please visit its website: https://quark
 * Maven
 * AngularJS
 * Bootstrap
+* Liquibase
 
 ## Prerequisites
 
@@ -38,11 +39,6 @@ If you want to learn more about Quarkus, please visit its website: https://quark
 * Connect IDEA and PostgreSQL
 
     https://www.jetbrains.com/help/idea/connecting-to-a-database.html#connect-to-postgresql-database
-	
-* Execute DB initialization script
-    ```
-    \favorite-movies\src\main\resources\init.sql
-    ```
 
 * Define your movie-api.api-key and quarkus.datasource.password
     ```
